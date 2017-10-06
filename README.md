@@ -15,9 +15,16 @@ Basic usage:
 
 For example:
 
-    $ sparrow plg run catmandu --param file=/path/to/file.json -- convert JSON to YAML
+    # read data from stdin and write to stdout
+    $ sparrow plg run catmandu -- convert JSON to YAML
 
-See parameters description at [Catmandu doc](https://metacpan.org/pod/distribution/Catmandu/bin/catmandu)
+    # read data from /path/to/file.json  and write to /path/to/file.yaml
+    $ sparrow plg run catmandu \
+    --param in=/path/to/file.json \
+    --param out=/path/to/file.yaml \
+    -- convert JSON to YAML
+
+For catmandu parameters follow [Catmandu documentation](https://metacpan.org/pod/distribution/Catmandu/bin/catmandu)
 
 # Automation
 
@@ -30,13 +37,14 @@ By sparrow tasks:
     $ sparrow task ini utils/json-to-yaml
 
       ---
+      out: /path/to/file.yaml
       args: 
         - convert 
         - JSON
         - to
         - YAML
 
-    $ sparrow task run utils/json=to-yaml --param file=/path/to/file.json
+    $ sparrow task run utils/json-to-yaml --param in=/path/to/file.json
 
 
 Or if you prefer remote run, use Sparrowdo:
@@ -44,7 +52,8 @@ Or if you prefer remote run, use Sparrowdo:
     $ cat sparrowfile
 
     task-run "convert json to yaml", "catmandu", %(
-      file => '/path/to/file.json',
+      in => '/path/to/file.json',
+      out => '/path/to/file.yaml',
       args => (
         ( 'convert', 'JSON', 'to', 'YAML')
       )

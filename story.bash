@@ -1,10 +1,8 @@
 set -e
 
-file=$(config file)
+in=$(config in)
+out=$(config out)
 
-if test -z $file; then
-  catmandu $(cli_args)
-else
-  catmandu $(cli_args) < $file
-fi
+
+catmandu $(cli_args) < $in > $out
 
